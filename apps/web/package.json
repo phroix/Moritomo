@@ -11,17 +11,21 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.9.0",
+    "@repo/rtk": "*",
     "@repo/ui": "*",
     "next": "^15.5.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-redux": "^9.2.0",
+    "redux": "^5.0.1"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
     "@types/node": "^22.15.3",
     "@types/react": "19.1.0",
-    "@types/react-dom": "19.1.1",
+    "@types/react-dom": "19.0.0",
     "eslint": "^9.34.0",
     "typescript": "5.9.2"
   }

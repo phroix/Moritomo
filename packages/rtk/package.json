@@ -1,0 +1,36 @@
+{
+  "name": "@repo/rtk",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./*.ts": "./src/*.ts",
+    "./storeProvider": "./src/web/storeProvider.tsx",
+    "./webHooks": "./src/web/hooks.ts",
+    "./mobileHooks": "./src/mobile/hooks.ts",
+    "./mobileStore": "./src/mobile/store.tsx",
+    "./lang": "./src/shared/Lang.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "generate:component": "turbo gen react-component",
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*",
+    "@types/node": "^22.15.3",
+    "@types/react": "19.1.0",
+    "@types/react-dom": "19.0.0",
+    "eslint": "^9.34.0",
+    "typescript": "5.9.2"
+  },
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "^2.2.0",
+    "@reduxjs/toolkit": "^2.9.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-redux": "^9.2.0",
+    "reactotron-redux": "^3.2.1",
+    "redux-persist": "^6.0.0"
+  }
+}

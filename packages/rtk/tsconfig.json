@@ -1,0 +1,8 @@
+{
+  "extends": "@repo/typescript-config/react-library.json",
+  "compilerOptions": {
+    "outDir": "dist"
+  },
+  "include": ["src", "src/web", "src/shared", "src/mobile"],
+  "exclude": ["node_modules", "dist"]
+}

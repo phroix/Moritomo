@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {
+  Pressable,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -25,12 +25,14 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import {colors} from '@repo/ui/colors';
+import {Provider} from 'react-redux';
+import store, {persistor} from '@repo/rtk/mobileStore';
+import {PersistGate} from 'redux-persist/integration/react';
+import {NavigationContainer} from '@react-navigation/native';
+import RootNavigation from './navigation/RootNavigation';
+import {ZaimuRoutes} from '@repo/ui/routes';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function App(): React.JSX.Element {
+function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -48,31 +50,18 @@ function App(): React.JSX.Element {
    */
   const safePadding = '5%';
 
+
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <Text style={{color: colors.primary}}>Primary</Text>
-      <Text style={{color: colors.secondary}}>Secondary</Text>
-    </SafeAreaView>
+    <Provider store={store}>
+      <PersistGate persistor={persistor} loading={null}>
+        <NavigationContainer
+        // linking={linking} ref={navigationRef}
+        >
+          <RootNavigation />
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;

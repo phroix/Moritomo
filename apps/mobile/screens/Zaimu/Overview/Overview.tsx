@@ -6,7 +6,9 @@ import style from './style';
 const Overview = () => {
   return (
     <SafeAreaView style={style.container}>
-      <Text>Overview</Text>
+      <ScrollView style={style.scrollView}>
+        <Text style={style.text}>Overview</Text>
+      </ScrollView>
     </SafeAreaView>
   );
 };

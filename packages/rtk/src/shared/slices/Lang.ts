@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import type { RootState } from "./web/store";
 
 const initialState = {
   selectedLang: "de",
@@ -19,7 +18,7 @@ const initialState = {
   },
 };
 
-export const Lang = createSlice({
+export const LangSlice = createSlice({
   name: "lang",
   initialState: initialState,
   reducers: {
@@ -32,7 +31,7 @@ export const Lang = createSlice({
   },
 });
 
-export const { resetLang, updateLang } = Lang.actions;
+export const { resetLang, updateLang } = LangSlice.actions;
 export const selectLang = (state: any) => state.lang;
 
-export default Lang.reducer;
+export default LangSlice.reducer;

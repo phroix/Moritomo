@@ -12,11 +12,13 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import { listenerMiddleware } from "./listenerMiddleware";
 
-import { Lang } from "../shared/Lang";
+import { LangSlice } from "../shared/slices/Lang";
+import { MoritomoSlice } from "../shared/slices/Moritomo";
 
 // Creating a rootReducer that combines all reducers in the app
 const rootReducer = combineReducers({
-  lang: Lang.reducer,
+  moritomo: MoritomoSlice.reducer,
+  lang: LangSlice.reducer,
 });
 
 // Configuring the redux-persist library to persist the root reducer with AsyncStorage

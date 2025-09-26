@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 // import {NonAuthenticated, SplashScreenStack} from './MainNavigation';
-import {Zaimu} from './MainNavigation';
+import {MoritomoStack} from './MainNavigation';
 // import {useAppSelector} from '../redux/hooks';
 import {View, ActivityIndicator, StyleSheet} from 'react-native';
 // import {selectPermissions} from '../redux/reducers/Auth';
@@ -17,7 +17,7 @@ const RootNavigation = () => {
   // if (splash) return <SplashScreenStack />;
 
   // return <NonAuthenticated />;
-  return <Zaimu />;
+  return <MoritomoStack />;
 };
 
 export default RootNavigation;

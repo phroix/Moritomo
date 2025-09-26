@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { Lang } from "../shared/Lang";
+import { LangSlice } from "../shared/slices/Lang";
+import { MoritomoSlice } from "../shared/slices/Moritomo";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      lang: Lang.reducer,
+      lang: LangSlice.reducer,
+      moritomo: MoritomoSlice.reducer,
     },
   });
 };

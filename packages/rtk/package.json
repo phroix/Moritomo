@@ -8,7 +8,8 @@
     "./webHooks": "./src/web/hooks.ts",
     "./mobileHooks": "./src/mobile/hooks.ts",
     "./mobileStore": "./src/mobile/store.tsx",
-    "./lang": "./src/shared/Lang.ts"
+    "./lang": "./src/shared/slices/Lang.ts",
+    "./moritomo": "./src/shared/slices/Moritomo.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

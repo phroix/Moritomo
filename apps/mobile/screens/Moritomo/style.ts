@@ -5,6 +5,9 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
   },
+  button: {
+    color: '#000',
+  },
 });
 
 export default style;

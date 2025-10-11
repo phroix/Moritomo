@@ -66,6 +66,6 @@ export const moritomoApi = createApi({
   reducerPath: "moritomoApi",
   baseQuery: baseQueryWithReauth,
   // baseQuery: rawBaseQuery,
-  tagTypes: ["Auth"],
+  tagTypes: ["Auth", "Overviews", "Transactions"],
   endpoints: () => ({}),
 });

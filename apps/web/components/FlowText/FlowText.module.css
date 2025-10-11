@@ -1,0 +1,17 @@
+
+.bodyRegular {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 22px;
+  letter-spacing: 0%;
+}
+
+.bodyEmphasized {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 22px;
+  letter-spacing: 0%;
+}
+

@@ -10,9 +10,11 @@
     "./mobileStore": "./src/mobile/store.tsx",
     "./lang": "./src/shared/slices/Lang.ts",
     "./moritomo": "./src/shared/slices/Moritomo.ts",
-
     "./moritomoApi": "./src/shared/querys/MoritomoApi.ts",
-    "./auth": "./src/shared/querys/Auth.ts"
+    "./auth": "./src/shared/querys/Auth.ts",
+    
+    "./overviews": "./src/shared/querys/zaimu/Overviews.ts",
+    "./transactions": "./src/shared/querys/zaimu/Transactions.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

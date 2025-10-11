@@ -7,7 +7,9 @@
     "./client": "./src/api/client.ts",
     "./auth": "./src/types/Auth.ts",
     "./api": "./src/api/api.ts",
-    "./moritomo": "./src/types/Moritomo.ts"
+    "./moritomo": "./src/types/Moritomo.ts",
+    "./overviews": "./src/types/Overviews.ts",
+    "./transactions": "./src/types/Transactions.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

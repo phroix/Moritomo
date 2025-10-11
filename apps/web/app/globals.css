@@ -1,50 +1,136 @@
+/* @import "tailwindcss";
+@import "tw-animate-css"; */
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --system-backgrounds-base-primary: var(--system-backgrounds-base-primary);
+  --system-backgrounds-base-secondary: var(--system-backgrounds-base-secondary);
+  --system-backgrounds-base-tertiary: var(--system-backgrounds-base-tertiary);
+
+  --system-backgrounds-elevated-primary: var(
+    --system-backgrounds-elevated-primary
+  );
+  --system-backgrounds-elevated-secondary: var(
+    --system-backgrounds-elevated-secondary
+  );
+  --system-backgrounds-elevated-tertiary: var(
+    --system-backgrounds-elevated-tertiary
+  );
+
+  --system-backgrounds-grouped-primary: var(
+    --system-backgrounds-grouped-primary
+  );
+  --system-backgrounds-grouped-secondary: var(
+    --system-backgrounds-grouped-secondary
+  );
+  --system-backgrounds-grouped-tertiary: var(
+    --system-backgrounds-grouped-tertiary
+  );
+
+  --system-backgrounds-grouped-elevated-primary: var(
+    --system-backgrounds-grouped-elevated-primary
+  );
+  --system-backgrounds-grouped-elevated-secondary: var(
+    --system-backgrounds-grouped-elevated-secondary
+  );
+  --system-backgrounds-grouped-elevated-tertiary: var(
+    --system-backgrounds-grouped-elevated-tertiary
+  );
+
+  --text-primary: var(--text-primary);
+  --text-secondary: var(--text-secondary);
+  --text-tertiary: var(--text-tertiary);
+  --text-quaternary: var(--text-quaternary);
+
+  --labels-primary: var(--labels-primary);
+  --labels-secondary: var(--labels-secondary);
+  --labels-tertiary: var(--labels-tertiary);
+  --labels-quaternary: var(--labels-quaternary);
+
+  --system-separators-opaque: var(--system-separators-opaque);
+  --system-separators-non-opaque: var(--system-separators-non-opaque);
+
+  --system-colors-system-red: var(--system-colors-system-red);
+  --system-colors-system-green: var(--system-colors-system-green);
+  --system-colors-system-cyan: var(--system-colors-system-cyan);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --system-backgrounds-base-primary: #ffffff;
+  --system-backgrounds-base-secondary: #ebebef;
+  --system-backgrounds-base-tertiary: #ffffff;
+
+  --system-backgrounds-elevated-primary: #ebebef;
+  --system-backgrounds-elevated-secondary: #dedee3;
+  --system-backgrounds-elevated-tertiary: #dedee3;
+
+  --system-backgrounds-grouped-primary: #ebebef;
+  --system-backgrounds-grouped-secondary: #ffffff;
+  --system-backgrounds-grouped-tertiary: #ebebef;
+
+  /* --system-backgrounds-grouped-elevated-primary: var(--system-backgrounds-grouped-elevated-primary);
+  --system-backgrounds-grouped-elevated-secondary: var(--system-backgrounds-grouped-elevated-secondary);
+  --system-backgrounds-grouped-elevated-tertiary: var(--system-backgrounds-grouped-elevated-tertiary); */
+
+  --text-primary: #000000;
+  --text-secondary: rgb(60, 60, 67, 0.8);
+  --text-tertiary: rgb(60, 60, 67, 0.7);
+  --text-quaternary: rgb(60, 60, 67, 0.55);
+
+  --labels-primary: #000000;
+  --labels-secondary: rgb(60, 60, 67, 0.6);
+  --labels-tertiary: rgb(60, 60, 67, 0.3);
+  --labels-quaternary: rgb(60, 60, 67, 0.18);
+
+  --system-separators-opaque: #c6c6c8;
+  --system-separators-non-opaque: rgb(60, 60, 67, 0.29);
+
+  --system-colors-system-red: #d70015;
+  --system-colors-system-green: #248a3d;
+  --system-colors-system-cyan: #0071a4;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.dark {
+  --system-backgrounds-base-primary: #000000;
+  --system-backgrounds-base-secondary: #242426;
+  --system-backgrounds-base-tertiary: #363638;
+
+  --system-backgrounds-elevated-primary: #242426;
+  --system-backgrounds-elevated-secondary: #363638;
+  --system-backgrounds-elevated-tertiary: #363638;
+
+  --system-backgrounds-grouped-primary: #242426;
+  --system-backgrounds-grouped-secondary: #363638;
+  --system-backgrounds-grouped-tertiary: #3a3a3c;
+
+  --system-backgrounds-grouped-elevated-primary: #000000;
+  --system-backgrounds-grouped-elevated-secondary: #242426;
+  --system-backgrounds-grouped-elevated-tertiary: #363638;
+
+  --text-primary: #ffffff;
+  --text-secondary: rgb(235, 235, 245, 0.6);
+  --text-tertiary: rgb(235, 235, 245, 0.3);
+  --text-quaternary: rgb(235, 235, 245, 0.16);
+
+  --labels-primary: #ffffff;
+  --labels-secondary: rgb(235, 235, 245, 0.7);
+  --labels-tertiary: rgb(235, 235, 245, 0.55);
+  --labels-quaternary: rgb(235, 235, 245, 0.4);
+
+  --system-separators-opaque: #38383a;
+  --system-separators-non-opaque: rgb(60, 60, 67, 0.29);
+
+  --system-colors-system-red: #ff6961;
+  --system-colors-system-green: #30db5b;
+  --system-colors-system-cyan: #70d7ff;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.imgDark {
-  display: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-
-  .imgLight {
-    display: none;
-  }
-  .imgDark {
-    display: unset;
+  body {
+    @apply bg-background text-foreground;
   }
 }

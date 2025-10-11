@@ -1,5 +1,4 @@
 .page {
-  background-color: var(--system-backgrounds-base-primary);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,12 +7,6 @@
   padding: 80px;
   gap: 64px;
 }
-
-/* @media (prefers-color-scheme: dark) {
-  .page {
-    
-  }
-} */
 
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {

@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 // import { StoreProvider } from "@repo/rtk/";
 import StoreProvider from "@repo/rtk/storeProvider";
+import { ThemeProvider } from "./providers/themeprovider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,11 +26,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <StoreProvider>
-        <body className={`${geistSans.variable} ${geistMono.variable}`}>
-          {children}
-        </body>
-      </StoreProvider>
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <StoreProvider>
+          <ThemeProvider attribute="class" defaultTheme="light">
+            {children}
+          </ThemeProvider>
+        </StoreProvider>
+      </body>
     </html>
   );
 }

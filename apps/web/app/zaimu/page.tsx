@@ -7,7 +7,7 @@ import { updateLang } from "@repo/rtk/lang";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 
-export default function Home() {
+export default function Zaimu() {
   const dispatch = useAppDispatch();
   const { selectedLang, de, en } = useAppSelector((state) => state.lang);
 
@@ -15,14 +15,13 @@ export default function Home() {
 
   return (
     <div className={styles.page}>
-      <Link href="/zaimu">
-        <p>Zaimu</p>
+      <Link href="/zaimu/overview">
+        <p>Overview</p>
       </Link>
-      {theme === "dark" ? (
-        <p onClick={() => setTheme("light")}>Light</p>
-      ) : (
-        <p onClick={() => setTheme("dark")}>Dark</p>
-      )}
+      <Link href="/zaimu/transaction">
+        <p>Transaction</p>
+      </Link>
+
     </div>
   );
 }

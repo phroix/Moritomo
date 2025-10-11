@@ -1,19 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../mobile/store";
-
-type AuthStatus = "nonAuthenticated" | "authenticated" | "admin" | null;
-type App = "moritomo" | "zaimu";
-export type Mode = "regular" | "debug";
-
-export interface ModeState {
-  mode: Mode;
-  app: App;
-}
-
-export interface AuthState {
-  session: any | null;
-  authStatus: AuthStatus;
-}
+import { ModeState } from "@repo/config/moritomo";
+import { AuthState } from "@repo/config/auth";
+import { Mode } from "@repo/config/moritomo";
 
 const initialState: AuthState & ModeState = {
   session: null,

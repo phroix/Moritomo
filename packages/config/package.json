@@ -1,18 +1,13 @@
 {
-  "name": "@repo/rtk",
+  "name": "@repo/config",
   "version": "0.0.0",
   "private": true,
   "exports": {
     "./*.ts": "./src/*.ts",
-    "./storeProvider": "./src/web/storeProvider.tsx",
-    "./webHooks": "./src/web/hooks.ts",
-    "./mobileHooks": "./src/mobile/hooks.ts",
-    "./mobileStore": "./src/mobile/store.tsx",
-    "./lang": "./src/shared/slices/Lang.ts",
-    "./moritomo": "./src/shared/slices/Moritomo.ts",
-
-    "./moritomoApi": "./src/shared/querys/MoritomoApi.ts",
-    "./auth": "./src/shared/querys/Auth.ts"
+    "./client": "./src/api/client.ts",
+    "./auth": "./src/types/Auth.ts",
+    "./api": "./src/api/api.ts",
+    "./moritomo": "./src/types/Moritomo.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

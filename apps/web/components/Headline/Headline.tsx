@@ -8,7 +8,8 @@ type HeadlineProps = {
     | "titleRegular"
     | "titleEmphasized"
     | "titleLarge"
-    | "titleLargeEmphasized";
+    | "titleLargeEmphasized"
+    | "subHeadline";
   color: string;
 };
 
@@ -21,7 +22,7 @@ export default function Headline({
     return `var(${color})`;
   }, [color]);
 
-  const flowText = useMemo(() => {
+  const headline = useMemo(() => {
     switch (type) {
       case "titleRegular":
         return styles.titleRegular;
@@ -31,13 +32,13 @@ export default function Headline({
         return styles.titleLarge;
       case "titleLargeEmphasized":
         return styles.titleLargeEmphasized;
+      case "subHeadline":
+        return styles.subHeadline;
     }
   }, [type]);
 
-  console.log(flowText);
-
   return (
-    <div className={flowText} style={{ color: colorValue }}>
+    <div className={headline} style={{ color: colorValue }}>
       {text}
     </div>
   );

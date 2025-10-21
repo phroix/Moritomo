@@ -119,7 +119,7 @@
   --labels-quaternary: rgb(235, 235, 245, 0.4);
 
   --system-separators-opaque: #38383a;
-  --system-separators-non-opaque: rgb(60, 60, 67, 0.29);
+  --system-separators-non-opaque: RGB(84, 84, 86, 0.35);
 
   --system-colors-system-red: #ff6961;
   --system-colors-system-green: #30db5b;

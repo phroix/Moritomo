@@ -19,10 +19,10 @@ export const api = moritomoApi.injectEndpoints({
 
     getOverviewAmount: builder.query<
       OverviewsResponse[],
-      monthlyOverviewAmountFilter
+      { date: string; id: number }
     >({
-      query: ({ overviews }) => ({
-        url: `zaimu/overviews/monthlyOverviewAmount?overviews=${overviews}`,
+      query: ({ date, id }) => ({
+        url: `zaimu/overviews/monthlyOverviewAmount?date=${date}&id=${id}`,
         method: "GET",
       }),
       providesTags: ["Overviews"],

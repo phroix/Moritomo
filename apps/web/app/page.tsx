@@ -7,7 +7,7 @@ import { updateLang } from "@repo/rtk/lang";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useLoginMutation, useLogoutMutation } from "@repo/rtk/auth";
-import { updateMoritomoState } from "@repo/rtk/shared/slices/Moritomo.ts";
+import { resetMoritomo, updateMoritomoState } from "@repo/rtk/shared/slices/Moritomo.ts";
 
 const email = "phirith01@proton.me";
 const password = "phirith";
@@ -35,7 +35,6 @@ export default function Home() {
                   password: password,
                 });
                 if (result.data) {
-                  console.log(result.data.session);
                   dispatch(
                     updateMoritomoState({
                       session: result.data.session,
@@ -50,13 +49,20 @@ export default function Home() {
           >
             Login
           </button>
+        </>
+      )}
+      {authStatus === "authenticated" && (
+      // {true && (
+        <>
+          <Link href="/zaimu">
+            <p>Zaimu</p>
+          </Link>
           <button
             onClick={async () => {
               try {
                 const result = await logout();
                 if (result.data) {
-                  console.log(result.data);
-                  // dispatch(updateMoritomoState(result.data));
+                  dispatch(resetMoritomo());
                   // push("/");
                 }
               } catch (err) {
@@ -66,13 +72,6 @@ export default function Home() {
           >
             Logout
           </button>
-        </>
-      )}
-      {authStatus === "authenticated" && (
-        <>
-          <Link href="/zaimu">
-            <p>Zaimu</p>
-          </Link>
           {theme === "dark" ? (
             <p onClick={() => setTheme("light")}>Light</p>
           ) : (

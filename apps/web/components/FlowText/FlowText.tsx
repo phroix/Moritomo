@@ -4,7 +4,7 @@ import { useMemo } from "react";
 
 type FlowTextProps = {
   text: string;
-  type: "bodyRegular" | "type2" | "type3";
+  type: "bodyRegular" | "bodyEmphasized";
   color: string;
 };
 
@@ -21,12 +21,10 @@ export default function FlowText({
     switch (type) {
       case "bodyRegular":
         return styles.bodyRegular;
-      case "type2":
-        return styles.type2;
+      case "bodyEmphasized":
+        return styles.bodyEmphasized;
     }
   }, [type]);
-
-  console.log(flowText);
 
   return (
     <div className={flowText} style={{ color: colorValue }}>

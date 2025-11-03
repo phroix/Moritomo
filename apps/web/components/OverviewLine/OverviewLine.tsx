@@ -4,16 +4,24 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import FlowText from "../FlowText/FlowText";
 import Headline from "../Headline/Headline";
 import styles from "./OverviewLine.module.css";
-import { useGetOverviewAmountQuery } from "@repo/rtk/shared/querys/zaimu/Overviews.ts";
+import {
+  useGetOverviewAmountQuery,
+  useUpdateOverviewMutation,
+} from "@repo/rtk/shared/querys/zaimu/Overviews.ts";
+import { OverviewType } from "@repo/config/types/Overviews.ts";
 
 type OverviewLineProps = {
   title: string;
   subtitle: string;
   date: string;
   id: number;
+  user_id: string;
+  keep_data: boolean;
   onClick: () => void;
   isInFocus: boolean;
   onAmountChange: (amount: number) => void;
+  onChangeTitles: () => void;
+  onDetailClick: () => void;
 };
 
 export default function OverviewLine({
@@ -21,14 +29,21 @@ export default function OverviewLine({
   subtitle,
   date,
   id,
+  user_id,
+  keep_data,
   onClick,
   isInFocus,
   onAmountChange,
+  onChangeTitles,
+  onDetailClick,
 }: OverviewLineProps) {
   const { data: overviewAmount } = useGetOverviewAmountQuery(
     { date, id },
     { skip: isInFocus }
   );
+
+  const [updateOverview, { isLoading: isUpdateOverviewLoading }] =
+    useUpdateOverviewMutation();
 
   const colorLabel = useMemo(() => `var(--labels-secondary)`, []);
 
@@ -48,6 +63,15 @@ export default function OverviewLine({
   }, [editing]);
 
   useEffect(() => {
+    if (
+      actuaTitle !== titleInputValue ||
+      actualSubtitle !== subtitleInputValue
+    ) {
+      onChangeTitles();
+    }
+  }, [titleInputValue, subtitleInputValue]);
+
+  useEffect(() => {
     if (!isInFocus) setEditing(null);
   }, [isInFocus]);
 
@@ -58,16 +82,31 @@ export default function OverviewLine({
   }, [overviewAmount, onAmountChange]);
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Enter") {
+    const handleKeyDown = async (event: KeyboardEvent) => {
+      if (
+        event.key === "Enter" &&
+        isInFocus &&
+        actuaTitle !== titleInputValue
+      ) {
         event.preventDefault();
-        
+        console.log("overviewAmount");
+        const result = await updateOverview({
+          overview_id: id,
+          overview: {
+            name: titleInputValue,
+            type: subtitleInputValue as OverviewType,
+            date: date,
+            user_id: user_id,
+            keep_data: keep_data,
+          },
+        });
+        console.log(result);
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [isInFocus]);
 
   return (
     <div
@@ -149,7 +188,7 @@ export default function OverviewLine({
         />
       </div>
 
-      <div className={styles.rightSide}>
+      <div className={styles.rightSide} onClick={onDetailClick}>
         <FlowText
           text="Detail"
           type="bodyEmphasized"

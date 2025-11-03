@@ -7,11 +7,13 @@ import { useMemo } from "react";
 type HeadlineProps = {
   text: string;
   color: string;
+  onClick: () => void;
 };
 
 export default function BackButton({
   text,
   color = "--text-primary",
+  onClick,
 }: HeadlineProps) {
   const colorValue = useMemo(() => {
     return `var(${color})`;
@@ -20,6 +22,7 @@ export default function BackButton({
   return (
     <div
       className={styles.backButton}
+      onClick={onClick}
       style={{ textDecorationColor: colorValue }}
     >
       <ChevronLeft color={colorValue} />

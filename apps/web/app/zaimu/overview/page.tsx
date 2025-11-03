@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import Image, { type ImageProps } from "next/image";
 import styles from "./page.module.css";
 
@@ -10,12 +10,15 @@ import { MonthYearPicker } from "../../../components/MonthYearPicker/MonthYearPi
 import {
   useGetOverviewAmountQuery,
   useGetOverviewsQuery,
+  useCreateOverviewMutation,
+  useUpdateOverviewMutation,
 } from "@repo/rtk/shared/querys/zaimu/Overviews.ts";
 import OverviewLine from "../../../components/OverviewLine/OverviewLine";
 import Link from "next/link";
 import { OverviewsResponse } from "@repo/config/types/Overviews.ts";
 import SumLine from "../../../components/SumLine/SumLine";
 import { useAppSelector } from "@repo/rtk/webHooks";
+import { useRouter } from "next/navigation";
 const DEFAULT_QUERY = {
   date: "2025-10",
   user_id: "5cddbfdc-4c08-4813-ae98-c4e3c6651135",
@@ -66,11 +69,17 @@ const DEFAULT_OVERVIEWS = [
   },
 ];
 export default function Overview() {
+  const router = useRouter();
   const [dateValue, setDateValue] = useState({ year: 2025, month: 9 });
-  // const userId = useAppSelector((state) => state.moritomo);
-  // console.log("userId", userId);
+
+  const [createOverview, { isLoading: isCreateOverviewLoading }] =
+    useCreateOverviewMutation();
+
+  const [updateOverview, { isLoading: isUpdateOverviewLoading }] =
+    useUpdateOverviewMutation();
+
   const {
-    data: overviews,
+    data: overviewsData,
     refetch: refetchOverviews,
     isLoading: isLoadingOverviewsFetch,
     error: errorOverviewsFetch,
@@ -80,6 +89,20 @@ export default function Overview() {
     from: DEFAULT_QUERY.from,
     to: DEFAULT_QUERY.to,
   });
+
+  const overviews = useMemo(
+    () =>
+      overviewsData?.map((overview) => ({
+        id: overview.id,
+        name: overview.name,
+        type: overview.type,
+        date: overview.date,
+        user_id: overview.user_id,
+        keep_data: overview.keep_data,
+      })),
+    [overviewsData]
+  );
+
   const [sumAmount, setSumAmount] = useState(0);
   const handleAmountChange = React.useCallback(
     (amount: number) => {
@@ -88,11 +111,12 @@ export default function Overview() {
     [overviews]
   );
 
-  // Summe zurücksetzen, wenn sich der Monat ändert
   useEffect(() => {
     setSumAmount(0);
   }, [dateValue]);
+
   const [isInFocusId, setIsInFocusId] = useState<number | null>(null);
+  const [isEditedOverviewIds, setIsEditedOverviewIds] = useState<number[]>([]);
   const isInFocus = overviews?.find((overview) => overview.id === isInFocusId);
 
   const divRef = useRef<HTMLDivElement>(null);
@@ -117,18 +141,28 @@ export default function Overview() {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "u") {
         event.preventDefault(); // optional, um Standardaktion (z. B. "Seitenquelle anzeigen") zu verhindern
         setIsInFocusId(null);
+        console.log("u");
+        console.log(isEditedOverviewIds);
         // Hier deine Logik
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []); // keine Abhängigkeiten nötig
+  }, [isEditedOverviewIds]);
+
+  console.log(isInFocusId);
 
   return (
     <div className={styles.page}>
       <div className={styles.headerContainer}>
-        <BackButton text="Moritomo" color="--system-colors-system-cyan" />
+        <BackButton
+          text="Moritomo"
+          color="--system-colors-system-cyan"
+          onClick={() => {
+            router.push("/zaimu");
+          }}
+        />
       </div>
       <div className={styles.allOverviewContainer}>
         <div className={styles.mainContainer}>
@@ -144,7 +178,16 @@ export default function Overview() {
             <AddButton
               text="Hinzufügen"
               color="--system-colors-system-cyan"
-              onClick={() => {}}
+              onClick={async () => {
+                await createOverview({
+                  name: "Neue Übersicht",
+                  type: "monthly",
+                  date: `${dateValue.year}-${dateValue.month + 1}`,
+                  user_id: DEFAULT_QUERY.user_id,
+                  keep_data: false,
+                });
+                refetchOverviews();
+              }}
             />
           </div>
           <div className={styles.sumContainer}>
@@ -158,11 +201,22 @@ export default function Overview() {
                 subtitle={overview.type}
                 date={overview.date}
                 id={overview.id}
+                user_id={overview.user_id}
+                keep_data={overview.keep_data}
                 isInFocus={isInFocusId === overview.id}
                 onClick={() => {
                   setIsInFocusId(overview.id);
                 }}
                 onAmountChange={handleAmountChange}
+                onChangeTitles={() => {
+                  console.log("onChangeTitles", overview.id);
+                  setIsEditedOverviewIds((prev) => 
+                    prev.includes(overview.id) ? prev : [...prev, overview.id]
+                  );
+                }}
+                onDetailClick={() => {
+                  router.push(`/zaimu/transaction?overview_id=${overview.id}`);
+                }}
               />
             ))}
           </div>

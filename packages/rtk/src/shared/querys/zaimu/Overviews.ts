@@ -41,7 +41,7 @@ export const api = moritomoApi.injectEndpoints({
 
     updateOverview: builder.mutation<
       [OverviewsRequest],
-      { overview_id: number; overview: OverviewsResponse }
+      { overview_id: number; overview: OverviewsRequest }
     >({
       query: ({ overview_id, overview }) => ({
         url: `zaimu/overviews/overview/${overview_id}`,

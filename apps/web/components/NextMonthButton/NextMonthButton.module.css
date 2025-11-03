@@ -1,0 +1,13 @@
+.addButton {
+    padding: 8px 1px;
+    border: none;
+    display: inline-block;
+    background-color: var(--system-separators-non-opaque); /* Beispielhintergrundfarbe */
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.addButton:hover {
+    text-decoration: underline;
+  }

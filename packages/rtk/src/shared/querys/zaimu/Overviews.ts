@@ -15,6 +15,7 @@ export const api = moritomoApi.injectEndpoints({
         method: "GET",
       }),
       providesTags: ["Overviews"],
+      keepUnusedDataFor: 0,
     }),
 
     getOverviewAmount: builder.query<
@@ -26,6 +27,7 @@ export const api = moritomoApi.injectEndpoints({
         method: "GET",
       }),
       providesTags: ["Overviews"],
+      keepUnusedDataFor: 0,
     }),
 
     createOverview: builder.mutation<[OverviewsResponse], OverviewsRequest>({

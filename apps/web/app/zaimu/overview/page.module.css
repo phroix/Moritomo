@@ -10,9 +10,26 @@
 .mainContainer {
   /* display: flex; */
   /* flex: 1; */
+  /* flex: 1; */
+
 }
 
 .mainHeader{
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  /* margin-left: 80px;
+  margin-right: 80px; */
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.overviewContainer{
+  /* background-color: gray; */
+
+}
+
+.allOverviewContainer{
+  margin-left: 80px;
+  margin-right: 80px;
 }

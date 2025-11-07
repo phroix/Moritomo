@@ -1,0 +1,60 @@
+.overviewLine {
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+
+  padding: 8px;
+
+  border-bottom-width: 0.1px;
+  border-bottom-style: solid;
+  border-bottom-color: var(--system-separators-opaque);
+}
+
+.inFocus {
+  /* background-color: #fff; */
+  border: 1px solid var(--system-separators-opaque);
+}
+
+.leftSide {
+  flex: 10;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* justify-content: flex-start; */
+  gap: 4px;
+}
+
+.middleSide {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+
+.titleContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+}
+
+.subtitleContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+}
+
+.bothTitlesContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    /* gap: 4px; */
+}

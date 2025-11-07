@@ -1,3 +1,5 @@
+import { OverviewType } from "./Overviews";
+
 export type TransactionType = "positive" | "negative";
 
 export type TransactionsResponse = {
@@ -17,9 +19,11 @@ export type TransactionsRequest = {
   overview_id: number;
 };
 
-export type overviewFilter = {
-  overview_id: number;
-  date: string;
+export type   overviewFilter = {
+  id: number;
+  date?: string;
   from: number;
   to: number;
+  keep_data: boolean;
+  type: OverviewType;
 };

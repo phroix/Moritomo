@@ -9,24 +9,24 @@ import { moritomoApi } from "../MoritomoApi";
 export const api = moritomoApi.injectEndpoints({
   endpoints: (builder) => ({
     getTransactions: builder.query<TransactionsResponse[], overviewFilter>({
-      query: ({ overview_id, date, from, to }) => ({
-        url: `/transactions/transactionsByOverview?overview_id=${overview_id}&date=${date}&from=${from}&to=${to}`,
-        method: "GET",
-      }),
+      query: ({ id, date, from, to, keep_data, type }) => {
+        const params = new URLSearchParams({
+          id: id.toString(),
+          from: from.toString(),
+          to: to.toString(),
+          keep_data: keep_data.toString(),
+          type: type.toString(),
+          date: date?.toString() ?? "",
+        });
+        
+        return {
+          url: `zaimu/transactions/transactionsByOverview?${params.toString()}`,
+          method: "GET",
+        };
+      },
+      keepUnusedDataFor: 0,
       providesTags: ["Transactions"],
     }),
-
-    // getOverviewAmount: builder.query<
-    //   TransactionsResponse[],
-    //   monthlyOverviewAmountFilter
-    // >({
-    //   query: ({ overviews }) => ({
-    //     url: `zaimu/overviews/monthlyOverviewAmount?overviews=${overviews}`,
-    //     method: "GET",
-    //   }),
-    //   providesTags: ["Overviews"],
-    // }),
-
     createTransaction: builder.mutation<
       [TransactionsResponse],
       TransactionsRequest
@@ -41,7 +41,7 @@ export const api = moritomoApi.injectEndpoints({
 
     updateTransaction: builder.mutation<
       [TransactionsRequest],
-      { transaction_id: number; transaction: TransactionsResponse }
+      { transaction_id: number; transaction: TransactionsRequest }
     >({
       query: ({ transaction_id, transaction }) => ({
         url: `zaimu/transactions/transaction/${transaction_id}`,

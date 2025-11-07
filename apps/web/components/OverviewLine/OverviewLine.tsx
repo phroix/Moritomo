@@ -9,6 +9,8 @@ import {
   useUpdateOverviewMutation,
 } from "@repo/rtk/shared/querys/zaimu/Overviews.ts";
 import { OverviewType } from "@repo/config/types/Overviews.ts";
+import InputField from "../InputField/InputField";
+import { useAppSelector } from "@repo/rtk/webHooks";
 
 type OverviewLineProps = {
   title: string;
@@ -17,6 +19,7 @@ type OverviewLineProps = {
   id: number;
   user_id: string;
   keep_data: boolean;
+  type: OverviewType;
   onClick: () => void;
   isInFocus: boolean;
   onAmountChange: (amount: number) => void;
@@ -28,6 +31,7 @@ export default function OverviewLine({
   title,
   subtitle,
   date,
+  type,
   id,
   user_id,
   keep_data,
@@ -37,8 +41,14 @@ export default function OverviewLine({
   onChangeTitles,
   onDetailClick,
 }: OverviewLineProps) {
+  const { selectedDate } = useAppSelector((state) => state.zaimu);
   const { data: overviewAmount } = useGetOverviewAmountQuery(
-    { date, id },
+    {
+      date: selectedDate,
+      id,
+      type,
+      keep_data,
+    },
     { skip: isInFocus }
   );
 
@@ -80,6 +90,7 @@ export default function OverviewLine({
       onAmountChange(overviewAmount); // Rückgabe an den Eltern
     }
   }, [overviewAmount, onAmountChange]);
+  
 
   useEffect(() => {
     const handleKeyDown = async (event: KeyboardEvent) => {
@@ -129,16 +140,21 @@ export default function OverviewLine({
                 type="titleRegular"
                 color="--text-primary"
               />
+              <Headline
+                text={id.toString()}
+                type="titleRegular"
+                color="--text-primary"
+              />
             </div>
           ) : (
             <div
               className={styles.inputContainer}
               onClick={(e) => e.stopPropagation()}
             >
-              <input
-                ref={titleInputRef}
+              <InputField
+                ref={titleInputRef as React.RefObject<HTMLInputElement>}
                 type="text"
-                value={titleInputValue}
+                val={titleInputValue}
                 onChange={(e) => setTitleInputValue(e.target.value)}
                 onBlur={() => setEditing(null)}
               />
@@ -164,10 +180,10 @@ export default function OverviewLine({
               className={styles.inputContainer}
               onClick={(e) => e.stopPropagation()}
             >
-              <input
-                ref={subtitleInputRef}
+              <InputField
+                ref={subtitleInputRef as React.RefObject<HTMLInputElement>}
                 type="text"
-                value={subtitleInputValue}
+                val={subtitleInputValue}
                 onChange={(e) => setSubtitleInputValue(e.target.value)}
                 onBlur={() => setEditing(null)}
               />

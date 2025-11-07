@@ -1,0 +1,16 @@
+.inputField {
+  padding: 4px 4px;
+  border-width: 0px;
+  border-style: none;
+  border-color: var(--system-separators-opaque);
+  display: inline-block;
+  background-color: var(
+    --system-separators-non-opaque
+  ); /* Beispielhintergrundfarbe */
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-primary);
+}

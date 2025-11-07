@@ -6,6 +6,7 @@ import {
   monthylOverviewFilter,
 } from "@repo/config/overviews";
 import { moritomoApi } from "../MoritomoApi";
+import { OverviewType } from "@repo/config/types/Overviews.ts";
 
 export const api = moritomoApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -20,12 +21,15 @@ export const api = moritomoApi.injectEndpoints({
 
     getOverviewAmount: builder.query<
       OverviewsResponse[],
-      { date: string; id: number }
+      { date?: string; id: number; keep_data: boolean; type: OverviewType  }
     >({
-      query: ({ date, id }) => ({
-        url: `zaimu/overviews/monthlyOverviewAmount?date=${date}&id=${id}`,
-        method: "GET",
-      }),
+      query: ({ date, id, keep_data, type }) => {
+        
+        return {
+          url: `zaimu/overviews/monthlyOverviewAmount?date=${date}&id=${id}&keep_data=${keep_data}&type=${type.toString()}`,
+          method: "GET",
+        };
+      },
       providesTags: ["Overviews"],
       keepUnusedDataFor: 0,
     }),

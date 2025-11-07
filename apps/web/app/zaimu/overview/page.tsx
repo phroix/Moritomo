@@ -15,10 +15,14 @@ import {
 } from "@repo/rtk/shared/querys/zaimu/Overviews.ts";
 import OverviewLine from "../../../components/OverviewLine/OverviewLine";
 import Link from "next/link";
-import { OverviewsResponse } from "@repo/config/types/Overviews.ts";
+import { OverviewsResponse, OverviewType } from "@repo/config/types/Overviews.ts";
 import SumLine from "../../../components/SumLine/SumLine";
-import { useAppSelector } from "@repo/rtk/webHooks";
+import { useAppDispatch, useAppSelector } from "@repo/rtk/webHooks";
 import { useRouter } from "next/navigation";
+import {
+  updateZaimu,
+  updateSelectedDate,
+} from "@repo/rtk/shared/slices/Zaimu.ts";
 const DEFAULT_QUERY = {
   date: "2025-10",
   user_id: "5cddbfdc-4c08-4813-ae98-c4e3c6651135",
@@ -69,6 +73,7 @@ const DEFAULT_OVERVIEWS = [
   },
 ];
 export default function Overview() {
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const [dateValue, setDateValue] = useState({ year: 2025, month: 9 });
 
@@ -151,7 +156,9 @@ export default function Overview() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isEditedOverviewIds]);
 
-  console.log(isInFocusId);
+  useEffect(() => {
+    dispatch(updateSelectedDate(`${dateValue.year}-${dateValue.month + 1}`));
+  }, [dateValue]);
 
   return (
     <div className={styles.page}>
@@ -202,6 +209,7 @@ export default function Overview() {
                 date={overview.date}
                 id={overview.id}
                 user_id={overview.user_id}
+                type={overview.type}
                 keep_data={overview.keep_data}
                 isInFocus={isInFocusId === overview.id}
                 onClick={() => {
@@ -210,12 +218,24 @@ export default function Overview() {
                 onAmountChange={handleAmountChange}
                 onChangeTitles={() => {
                   console.log("onChangeTitles", overview.id);
-                  setIsEditedOverviewIds((prev) => 
+                  setIsEditedOverviewIds((prev) =>
                     prev.includes(overview.id) ? prev : [...prev, overview.id]
                   );
                 }}
                 onDetailClick={() => {
-                  router.push(`/zaimu/transaction?overview_id=${overview.id}`);
+                  router.push(`/zaimu/transaction`);
+                  dispatch(
+                    updateZaimu({
+                      id: overview.id,
+                      name: overview.name,
+                      date:
+                        overview.date ??
+                        `${dateValue.year}-${dateValue.month + 1}`,
+                      user_id: overview.user_id,
+                      keep_data: overview.keep_data,
+                      type: overview.type as OverviewType,
+                    })
+                  );
                 }}
               />
             ))}

@@ -75,13 +75,10 @@ const DEFAULT_OVERVIEWS = [
 export default function Overview() {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const [dateValue, setDateValue] = useState({ year: 2025, month: 9 });
+  const [dateValue, setDateValue] = useState({ year: 2025, month: 10 });
 
   const [createOverview, { isLoading: isCreateOverviewLoading }] =
     useCreateOverviewMutation();
-
-  const [updateOverview, { isLoading: isUpdateOverviewLoading }] =
-    useUpdateOverviewMutation();
 
   const {
     data: overviewsData,

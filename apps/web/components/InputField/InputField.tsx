@@ -8,7 +8,7 @@ import { useMemo } from "react";
 type InputFieldProps = {
   ref: React.RefObject<HTMLInputElement>;
   type: string;
-  val: string;
+  val: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur: () => void;
 };
@@ -21,6 +21,7 @@ export default function InputField({
   onBlur,
 
 }: InputFieldProps) {
+  
   return (
     <div className={styles.inputFieldContainer}>
       <input
@@ -29,6 +30,7 @@ export default function InputField({
         value={val}
         onChange={onChange}
         onBlur={onBlur}
+        onFocus={(e) => e.target.select()}
         className={styles.inputField}
       />
     </div>

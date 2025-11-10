@@ -6,7 +6,7 @@ import AddButton from "../../../components/AddButton/AddButton";
 import BackButton from "../../../components/BackButton/BackButton";
 import { useRouter } from "next/navigation";
 import SumLine from "../../../components/SumLine/SumLine";
-import { useGetTransactionsQuery } from "@repo/rtk/shared/querys/zaimu/Transactions.ts";
+import { useCreateTransactionMutation, useDeleteTransactionMutation, useGetTransactionsQuery } from "@repo/rtk/shared/querys/zaimu/Transactions.ts";
 import TransactionLine from "../../../components/TransactionLine/TransactionLine";
 import Headline from "../../../components/Headline/Headline";
 import { useSearchParams } from "next/navigation";
@@ -84,10 +84,8 @@ export default function Transaction() {
   const searchParams = useSearchParams();
   const { selectedOverview } = useAppSelector((state) => state.zaimu);
   const { selectedDate } = useAppSelector((state) => state.zaimu);
-  console.log(selectedOverview);
 
   const [dateValue, setDateValue] = useState({ year: 2025, month: 9 });
-  console.log(selectedOverview.date);
 
   const queryParams = {
     id: selectedOverview?.id,
@@ -106,7 +104,9 @@ export default function Transaction() {
     error: errorTransactionsFetch,
   } = useGetTransactionsQuery(queryParams);
 
-  console.log(transactionsData);
+  const [createTransaction, { isLoading: isCreateTransactionLoading }] =
+    useCreateTransactionMutation();
+
 
   const transactions = useMemo(
     () =>
@@ -132,7 +132,7 @@ export default function Transaction() {
     }, 0);
   }, [transactions]);
 
-  console.log(selectedOverview);
+  // console.log(selectedOverview);
 
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -159,11 +159,19 @@ export default function Transaction() {
             <AddButton
               text="Hinzufügen"
               color="--system-colors-system-cyan"
-              onClick={async () => {}}
+              onClick={async () => {
+                await createTransaction({
+                  name: "Neue Transaktion",
+                  amount: 0,
+                  type: "positive",
+                  date: selectedDate,
+                  overview_id: selectedOverview.id,
+                });
+              }}
             />
           </div>
           <div className={styles.sumContainer}>
-            <SumLine title="Gesamt:" amount={sumAmount} />
+            <SumLine title="Gesamt:" amount={sumAmount.toFixed(2)} />
           </div>
           <div ref={divRef} className={styles.overviewContainer}>
             {transactions?.map((transaction) => (

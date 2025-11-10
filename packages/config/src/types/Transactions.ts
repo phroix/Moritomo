@@ -15,8 +15,8 @@ export type TransactionsRequest = {
   name: string;
   amount: number;
   type: TransactionType;
-  date: string;
-  overview_id: number;
+  date?: string;
+  overview_id?: number;
 };
 
 export type   overviewFilter = {

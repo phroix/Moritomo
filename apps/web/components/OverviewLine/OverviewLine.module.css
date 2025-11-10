@@ -9,6 +9,8 @@
   border-bottom-width: 0.1px;
   border-bottom-style: solid;
   border-bottom-color: var(--system-separators-opaque);
+  
+  position: relative;
 }
 
 .inFocus {
@@ -66,4 +68,12 @@
     align-items: flex-start;
     justify-content: flex-start;
     /* gap: 4px; */
+}
+
+.trashIcon {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  cursor: pointer;
+  z-index: 10;
 }

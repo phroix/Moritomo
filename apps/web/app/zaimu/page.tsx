@@ -6,6 +6,7 @@ import { useAppSelector, useAppDispatch } from "@repo/rtk/webHooks";
 import { updateLang } from "@repo/rtk/lang";
 import Link from "next/link";
 import { useTheme } from "next-themes";
+import Overview from "./overview/page";
 
 export default function Zaimu() {
   const dispatch = useAppDispatch();
@@ -14,14 +15,8 @@ export default function Zaimu() {
   const { theme, setTheme } = useTheme();
 
   return (
-    <div className={styles.page}>
-      <Link href="/zaimu/overview">
-        <p>Overview</p>
-      </Link>
-      <Link href="/zaimu/transaction">
-        <p>Transaction</p>
-      </Link>
-
-    </div>
+    // <div className={styles.page}>
+    <Overview />
+    // </div>
   );
 }

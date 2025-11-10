@@ -1,10 +1,11 @@
 "use client";
-import { ChevronRight, Circle } from "lucide-react";
+import { ChevronRight, Circle, X } from "lucide-react";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import FlowText from "../FlowText/FlowText";
 import Headline from "../Headline/Headline";
 import styles from "./OverviewLine.module.css";
 import {
+  useDeleteOverviewMutation,
   useGetOverviewAmountQuery,
   useUpdateOverviewMutation,
 } from "@repo/rtk/shared/querys/zaimu/Overviews.ts";
@@ -54,6 +55,8 @@ export default function OverviewLine({
 
   const [updateOverview, { isLoading: isUpdateOverviewLoading }] =
     useUpdateOverviewMutation();
+  const [deleteOverview, { isLoading: isDeleteOverviewLoading }] =
+  useDeleteOverviewMutation();
 
   const colorLabel = useMemo(() => `var(--labels-secondary)`, []);
 
@@ -90,7 +93,6 @@ export default function OverviewLine({
       onAmountChange(overviewAmount); // Rückgabe an den Eltern
     }
   }, [overviewAmount, onAmountChange]);
-  
 
   useEffect(() => {
     const handleKeyDown = async (event: KeyboardEvent) => {
@@ -124,6 +126,16 @@ export default function OverviewLine({
       className={styles.overviewLine + " " + (isInFocus ? styles.inFocus : "")}
       onClick={onClick}
     >
+      {isInFocus && (
+        <div
+          className={styles.trashIcon}
+          onClick={() => {
+            deleteOverview({ overview_id: id });
+          }}
+        >
+          <X color="var(--system-colors-system-red)" size={20} />
+        </div>
+      )}
       <div className={styles.leftSide}>
         {(actuaTitle !== titleInputValue ||
           actualSubtitle !== subtitleInputValue) && (

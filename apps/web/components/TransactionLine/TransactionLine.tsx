@@ -9,8 +9,14 @@ import {
   useUpdateOverviewMutation,
 } from "@repo/rtk/shared/querys/zaimu/Overviews.ts";
 import { OverviewType } from "@repo/config/types/Overviews.ts";
-import { useUpdateTransactionMutation } from "@repo/rtk/shared/querys/zaimu/Transactions.ts";
-import { TransactionType } from "@repo/config/types/Transactions.ts";
+import {
+  useDeleteTransactionMutation,
+  useUpdateTransactionMutation,
+} from "@repo/rtk/shared/querys/zaimu/Transactions.ts";
+import {
+  TransactionsRequest,
+  TransactionType,
+} from "@repo/config/types/Transactions.ts";
 import InputField from "../InputField/InputField";
 
 type OverviewLineProps = {
@@ -40,12 +46,25 @@ export default function OverviewLine({
 }: OverviewLineProps) {
   const [updateTransaction, { isLoading: isUpdateTransactionLoading }] =
     useUpdateTransactionMutation();
+  const [deleteTransaction, { isLoading: isDeleteTransactionLoading }] =
+    useDeleteTransactionMutation();
 
   const colorLabel = useMemo(() => `var(--labels-secondary)`, []);
 
   const actuaTitle = title;
+  const actualAmount = amount;
+  const actualType = type;
+  const selfTransaction: TransactionsRequest = {
+    name: title,
+    amount,
+    type,
+    date,
+    overview_id,
+  };
   const [titleInputValue, setTitleInputValue] = useState(title);
+  const [typeInputValue, setTypeInputValue] = useState<TransactionType>(type);
   const [amountInputValue, setAmountInputValue] = useState(amount);
+  const [amountInputString, setAmountInputString] = useState(amount.toString());
 
   const [editing, setEditing] = useState<null | "title" | "amount">(null);
 
@@ -54,7 +73,10 @@ export default function OverviewLine({
 
   useEffect(() => {
     if (editing === "title") titleInputRef.current?.focus();
-    if (editing === "amount") amountInputRef.current?.focus();
+    if (editing === "amount") {
+      setAmountInputString(amountInputValue.toString());
+      amountInputRef.current?.focus();
+    }
   }, [editing]);
 
   useEffect(() => {
@@ -70,42 +92,56 @@ export default function OverviewLine({
   useEffect(() => {
     if (amount !== undefined) {
       onAmountChange(amount); // Rückgabe an den Eltern
+      setAmountInputValue(amount);
+      setAmountInputString(amount.toString());
     }
   }, [amount, onAmountChange]);
 
+  const transactionsEditMode =
+    title !== titleInputValue ||
+    amount !== amountInputValue ||
+    type !== typeInputValue;
+
+  // console.log("amountInputValue", amountInputValue);
   useEffect(() => {
     const handleKeyDown = async (event: KeyboardEvent) => {
       if (
         event.key === "Enter" &&
-        isInFocus &&
-        actuaTitle !== titleInputValue
+        // isInFocus &&
+        transactionsEditMode
+        // true
       ) {
         event.preventDefault();
-        console.log("overviewAmount");
+        console.log(
+          "updateTransaction",
+          titleInputValue,
+          amountInputValue,
+          typeInputValue
+        );
         const result = await updateTransaction({
           transaction_id: id,
           transaction: {
             name: titleInputValue,
-            amount: amount,
-            type: type,
-            date: date,
-            overview_id: overview_id,
+            amount: amountInputValue,
+            type: typeInputValue,
           },
         });
+        console.log("result", result);
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isInFocus]);
+  }, [transactionsEditMode, typeInputValue, amountInputValue, titleInputValue]);
 
+  // console.log("transactionsEditMode", transactionsEditMode);
   return (
     <div
       className={styles.overviewLine + " " + (isInFocus ? styles.inFocus : "")}
       onClick={onClick}
     >
       <div className={styles.leftSide}>
-        {actuaTitle !== titleInputValue && <Circle color="white" size={5} />}
+        {transactionsEditMode && <Circle color="white" size={5} />}
         <div className={styles.bothTitlesContainer}>
           {editing !== "title" ? (
             <div
@@ -135,13 +171,35 @@ export default function OverviewLine({
         </div>
       </div>
 
-      <div className={styles.middleSide} onClick={() => setEditing("amount")}>
+      <div
+        className={styles.middleSide}
+        onClick={() => {
+          setTypeInputValue(
+            typeInputValue === "positive" ? "negative" : "positive"
+          );
+        }}
+      >
+        <FlowText
+          text={typeInputValue === "positive" ? "+" : "-"}
+          type="bodyEmphasized"
+          color={
+            typeInputValue === "positive"
+              ? "--system-colors-system-green"
+              : "--system-colors-system-red"
+          }
+        />
+      </div>
+
+      <div className={styles.rightSide} onClick={() => setEditing("amount")}>
         {editing !== "amount" ? (
           <FlowText
-            text={(amount != null ? amount : 0).toString() + " €"}
+            text={
+              (amountInputValue != null ? amountInputValue : 0).toString() +
+              " €"
+            }
             type="bodyEmphasized"
             color={
-              type === "positive"
+              typeInputValue === "positive"
                 ? "--system-colors-system-green"
                 : "--system-colors-system-red"
             }
@@ -150,9 +208,16 @@ export default function OverviewLine({
           <InputField
             ref={amountInputRef as React.RefObject<HTMLInputElement>}
             type="text"
-            val={amountInputValue.toString()}
-            onChange={(e) => setAmountInputValue(Number(e.target.value))}
-            onBlur={() => setEditing(null)}
+            val={amountInputString}
+            onChange={(e) => {
+              const value = e.target.value.replace(",", ".");
+              setAmountInputString(value);
+            }}
+            onBlur={() => {
+              const numValue = Number(amountInputString);
+              setAmountInputValue(isNaN(numValue) ? 0 : numValue);
+              setEditing(null);
+            }}
           />
         )}
       </div>

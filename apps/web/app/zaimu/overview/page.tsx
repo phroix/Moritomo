@@ -15,7 +15,10 @@ import {
 } from "@repo/rtk/shared/querys/zaimu/Overviews.ts";
 import OverviewLine from "../../../components/OverviewLine/OverviewLine";
 import Link from "next/link";
-import { OverviewsResponse, OverviewType } from "@repo/config/types/Overviews.ts";
+import {
+  OverviewsResponse,
+  OverviewType,
+} from "@repo/config/types/Overviews.ts";
 import SumLine from "../../../components/SumLine/SumLine";
 import { useAppDispatch, useAppSelector } from "@repo/rtk/webHooks";
 import { useRouter } from "next/navigation";
@@ -23,6 +26,7 @@ import {
   updateZaimu,
   updateSelectedDate,
 } from "@repo/rtk/shared/slices/Zaimu.ts";
+import { MonthIndex } from "@repo/config/date/monthYear.ts";
 const DEFAULT_QUERY = {
   date: "2025-10",
   user_id: "5cddbfdc-4c08-4813-ae98-c4e3c6651135",
@@ -75,7 +79,13 @@ const DEFAULT_OVERVIEWS = [
 export default function Overview() {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const [dateValue, setDateValue] = useState({ year: 2025, month: 10 });
+  const [dateValue, setDateValue] = useState<{
+    year: number;
+    month: MonthIndex;
+  }>({
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() as MonthIndex,
+  });
 
   const [createOverview, { isLoading: isCreateOverviewLoading }] =
     useCreateOverviewMutation();
@@ -172,7 +182,7 @@ export default function Overview() {
         <div className={styles.mainContainer}>
           <div className={styles.mainHeader}>
             <MonthYearPicker
-              value={dateValue}
+              value={dateValue as { year: number; month: MonthIndex }}
               onChange={setDateValue}
               minYear={2025}
               maxYear={2035}
@@ -195,7 +205,10 @@ export default function Overview() {
             />
           </div>
           <div className={styles.sumContainer}>
-            <SumLine title="Gesamt:" amount={sumAmount} />
+            <SumLine
+              title="Gesamt:"
+              amount={parseFloat(sumAmount.toFixed(2))}
+            />
           </div>
           <div ref={divRef} className={styles.overviewContainer}>
             {overviews?.map((overview) => (

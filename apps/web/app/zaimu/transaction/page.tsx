@@ -6,18 +6,23 @@ import AddButton from "../../../components/AddButton/AddButton";
 import BackButton from "../../../components/BackButton/BackButton";
 import { useRouter } from "next/navigation";
 import SumLine from "../../../components/SumLine/SumLine";
-import { useCreateTransactionMutation, useDeleteTransactionMutation, useGetTransactionsQuery } from "@repo/rtk/shared/querys/zaimu/Transactions.ts";
+import {
+  useCreateTransactionMutation,
+  useDeleteTransactionMutation,
+  useGetTransactionsQuery,
+} from "@repo/rtk/shared/querys/zaimu/Transactions.ts";
 import TransactionLine from "../../../components/TransactionLine/TransactionLine";
 import Headline from "../../../components/Headline/Headline";
 import { useSearchParams } from "next/navigation";
 import { useAppSelector } from "@repo/rtk/webHooks";
 import { OverviewType } from "@repo/config/types/Overviews.ts";
+import SwipeableRow from "../../../components/SwipeableRow";
 
 const DEFAULT_QUERY = {
   date: "2025-10",
   overview_id: 1,
   from: 0,
-  to: 10,
+  to: 100,
 };
 
 const DEFAULT_TRANSACTIONS = [
@@ -77,6 +82,70 @@ const DEFAULT_TRANSACTIONS = [
     date: "2025-10-01",
     overview_id: 1,
   },
+  {
+    id: 8,
+    name: "Kleidung",
+    amount: -100,
+    type: "negative",
+    date: "2025-10-01",
+    overview_id: 1,
+  },
+  {
+    id: 9,
+    name: "Kleidung",
+    amount: -100,
+    type: "negative",
+    date: "2025-10-01",
+    overview_id: 1,
+  },
+  {
+    id: 10,
+    name: "Kleidung",
+    amount: -100,
+    type: "negative",
+    date: "2025-10-01",
+    overview_id: 1,
+  },
+  {
+    id: 11,
+    name: "Kleidung",
+    amount: -100,
+    type: "negative",
+    date: "2025-10-01",
+    overview_id: 1,
+  },
+  {
+    id: 8,
+    name: "Kleidung",
+    amount: -100,
+    type: "negative",
+    date: "2025-10-01",
+    overview_id: 1,
+  },
+  {
+    id: 12,
+    name: "Kleidung",
+    amount: -100,
+    type: "negative",
+    date: "2025-10-01",
+    overview_id: 1,
+  },
+  {
+    id: 13,
+    name: "Kleidung",
+    amount: -100,
+    type: "negative",
+    date: "2025-10-01",
+    overview_id: 1,
+  },
+  {
+    id: 14,
+    name: "Kleidung",
+    amount: -100,
+    type: "negative",
+    date: "2025-10-01",
+    overview_id: 1,
+  },
 ];
 
 export default function Transaction() {
@@ -106,7 +175,6 @@ export default function Transaction() {
 
   const [createTransaction, { isLoading: isCreateTransactionLoading }] =
     useCreateTransactionMutation();
-
 
   const transactions = useMemo(
     () =>
@@ -166,15 +234,17 @@ export default function Transaction() {
                   type: "positive",
                   date: selectedDate,
                   overview_id: selectedOverview.id,
+                  created_at: new Date().toISOString(),
                 });
               }}
             />
           </div>
           <div className={styles.sumContainer}>
-            <SumLine title="Gesamt:" amount={sumAmount.toFixed(2)} />
+            <SumLine title="Gesamt:" amount={parseFloat(sumAmount.toFixed(2))} />
           </div>
-          <div ref={divRef} className={styles.overviewContainer}>
+          <div ref={divRef} className={styles.transactionContainer}>
             {transactions?.map((transaction) => (
+              // <SwipeableRow>
               <TransactionLine
                 key={transaction.id}
                 title={transaction.name}
@@ -188,6 +258,7 @@ export default function Transaction() {
                 onAmountChange={() => {}}
                 onChangeTitles={() => {}}
               />
+              // </SwipeableRow>
             ))}
           </div>
         </div>

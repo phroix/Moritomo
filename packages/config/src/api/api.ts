@@ -1,4 +1,4 @@
-import {Platform} from 'react-native';
+import { Platform } from "react-native";
 
 // export const API_CONFIG = {
 //   BASE_URL: Platform.select({
@@ -8,8 +8,7 @@ import {Platform} from 'react-native';
 // };
 
 export const API_CONFIG = {
-  // BASE_URL: 'https://moritomoapi.philroth.com/v1',
+  // BASE_URL: "https://moritomoapi.philroth.com/v1",
   // BASE_URL_LOCAL: 'http://localhost:8080/v1',
   BASE_URL: 'http://localhost:8080/v1',
-  
 };

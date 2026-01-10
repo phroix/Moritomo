@@ -56,7 +56,7 @@ export default function OverviewLine({
   const [updateOverview, { isLoading: isUpdateOverviewLoading }] =
     useUpdateOverviewMutation();
   const [deleteOverview, { isLoading: isDeleteOverviewLoading }] =
-  useDeleteOverviewMutation();
+    useDeleteOverviewMutation();
 
   const colorLabel = useMemo(() => `var(--labels-secondary)`, []);
 
@@ -206,10 +206,15 @@ export default function OverviewLine({
 
       <div className={styles.middleSide}>
         <FlowText
-          text={(overviewAmount != null ? overviewAmount : 0).toString() + " €"}
+          text={
+            (overviewAmount != null
+              ? overviewAmount.toFixed(2)
+              : 0.0
+            ).toString() + " €"
+          }
           type="bodyEmphasized"
           color={
-            (overviewAmount ?? 0) >= 0
+            (overviewAmount != null ? overviewAmount.toFixed(2) : 0.0) >= 0
               ? "--system-colors-system-green"
               : "--system-colors-system-red"
           }

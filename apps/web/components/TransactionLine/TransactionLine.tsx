@@ -1,5 +1,5 @@
 "use client";
-import { ChevronRight, Circle } from "lucide-react";
+import { ChevronRight, Circle, X } from "lucide-react";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import FlowText from "../FlowText/FlowText";
 import Headline from "../Headline/Headline";
@@ -140,6 +140,16 @@ export default function OverviewLine({
       className={styles.overviewLine + " " + (isInFocus ? styles.inFocus : "")}
       onClick={onClick}
     >
+      {isInFocus && (
+        <div
+          className={styles.trashIcon}
+          onClick={() => {
+            deleteTransaction({ transaction_id: id });
+          }}
+        >
+          <X color="var(--system-colors-system-red)" size={20} />
+        </div>
+      )}
       <div className={styles.leftSide}>
         {transactionsEditMode && <Circle color="white" size={5} />}
         <div className={styles.bothTitlesContainer}>

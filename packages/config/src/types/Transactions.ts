@@ -9,6 +9,7 @@ export type TransactionsResponse = {
   type: TransactionType;
   date: string;
   overview_id: number;
+  created_at: string;
 };
 
 export type TransactionsRequest = {
@@ -17,6 +18,7 @@ export type TransactionsRequest = {
   type: TransactionType;
   date?: string;
   overview_id?: number;
+  created_at?: string;
 };
 
 export type   overviewFilter = {
@@ -26,4 +28,5 @@ export type   overviewFilter = {
   to: number;
   keep_data: boolean;
   type: OverviewType;
+  created_at?: string;
 };

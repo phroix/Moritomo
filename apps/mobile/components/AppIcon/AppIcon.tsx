@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 
 import style from './style';
+import FlowText from '../FlowText/FlowText';
+import { typographie } from '@repo/ui/typographie';
 
 type AppIconProps = {
   icon: ImageSourcePropType;
@@ -23,7 +25,7 @@ const AppIcon = ({icon, name, onPress}: AppIconProps) => {
       <Pressable onPress={onPress} style={style.pressable}>
         <Image source={icon} style={style.icon} />
       </Pressable>
-      <Text style={style.name}>{name}</Text>
+      <FlowText text={name} type={typographie.secondary} />
     </View>
   );
 };

@@ -21,7 +21,7 @@ type FlowTextProps = {
 };
 
 const FlowText = ({text, style, type}: FlowTextProps) => {
-  return <Text style={type}>{text}</Text>;
+  return <Text style={[type, style]}>{text}</Text>;
 };
 
 export default FlowText;

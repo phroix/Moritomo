@@ -1,13 +1,13 @@
 export const typographie = {
   primary: {
-    fontSize: 16,
-    fontWeight: "bold" as const,
-    color: "black",
+    fontSize: 17,
+    fontWeight: "regular" as const,
+    lineHeight: 22,
   },
   secondary: {
-    fontSize: 14,
-    fontWeight: "normal" as const,
-    color: "gray",
+    fontSize: 15,
+    lineHeight: 20,
+    fontWeight: "regular" as const,
   },
 };
 

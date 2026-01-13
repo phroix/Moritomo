@@ -1,9 +1,5 @@
 import React, {useEffect} from 'react';
-import {
-  SafeAreaView,
-  View,
-  Pressable,
-} from 'react-native';
+import {SafeAreaView, View, Pressable} from 'react-native';
 import {useAppDispatch} from '@repo/rtk/mobile/hooks.ts';
 import {resetMoritomo, updateMoritomoState} from '@repo/rtk/moritomo';
 import style from './style';
@@ -30,7 +26,6 @@ const Moritomo = ({navigation}: {navigation: any}) => {
           icon={require('../../assets/images/money_.png')}
           name="Zaimu"
           onPress={() => {
-            2;
             dispatch(updateMoritomoState({app: 'zaimu'}));
             navigation.navigate(ZaimuRoutes.ZaimuOverview);
           }}
@@ -43,12 +38,6 @@ const Moritomo = ({navigation}: {navigation: any}) => {
             navigation.navigate(KoujouRoutes.KoujouOverview);
           }}
         />
-        {/* <Pressable onPress={() => navigation.navigate(ZaimuRoutes.Overview)}>
-          <Text style={style.button}>Zaimu</Text>
-        </Pressable>
-        <Pressable onPress={() => navigation.navigate(KoujouRoutes.Overview)}>
-          <Text style={style.button}>Koujou</Text>
-        </Pressable> */}
       </View>
 
       <View style={style.logoutButtonContainer}>
@@ -56,16 +45,14 @@ const Moritomo = ({navigation}: {navigation: any}) => {
           onPress={async () => {
             try {
               const result = await logout();
-              console.log(result);
               if (result.data) {
                 dispatch(resetMoritomo());
-                // push("/");
               }
             } catch (err) {
               console.log(err);
             }
           }}>
-          <FlowText text="Logout" type={typographie.secondary} />
+          <FlowText text="Logout" type={typographie.primary} />
         </Pressable>
       </View>
     </SafeAreaView>

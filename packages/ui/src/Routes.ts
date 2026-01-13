@@ -9,6 +9,12 @@ export const MoritomoRoutes = {
 };
 
 export const ZaimuRoutes = {
-  Overview: "Overview",
+  ZaimuOverview: "ZaimuOverview",
   Transaction: "Transaction",
 };
+
+export const KoujouRoutes = {
+  KoujouOverview: "KoujouOverview",
+  Workouts: "Workouts",
+  Statistics: "Statistics",
+}

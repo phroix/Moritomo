@@ -14,11 +14,15 @@ import { listenerMiddleware } from "./listenerMiddleware";
 
 import { LangSlice } from "../shared/slices/Lang";
 import { MoritomoSlice } from "../shared/slices/Moritomo";
+import { ZaimuSlice } from "../shared/slices/Zaimu";
+import { moritomoApi } from "../shared/querys/MoritomoApi";
 
 // Creating a rootReducer that combines all reducers in the app
 const rootReducer = combineReducers({
   moritomo: MoritomoSlice.reducer,
   lang: LangSlice.reducer,
+  zaimu: ZaimuSlice.reducer,
+  [moritomoApi.reducerPath]: moritomoApi.reducer,
 });
 
 // Configuring the redux-persist library to persist the root reducer with AsyncStorage
@@ -42,10 +46,11 @@ const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
       thunk: true,
-    }).prepend(listenerMiddleware.middleware),
-  // .concat(kebapGuideApi.middleware) as unknown as ReturnType<
-  // typeof getDefaultMiddleware
-  // >,
+    })
+      .prepend(listenerMiddleware.middleware)
+      .concat(moritomoApi.middleware) as unknown as ReturnType<
+      typeof getDefaultMiddleware
+    >,
 });
 
 setupListeners(store.dispatch);

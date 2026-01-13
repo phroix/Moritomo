@@ -3,14 +3,12 @@ import {SafeAreaView, View, Text, Image, ScrollView} from 'react-native';
 
 import style from './style';
 
-const ZaimuOverview = () => {
+const Statistics = () => {
   return (
     <SafeAreaView style={style.container}>
-      <ScrollView style={style.scrollView}>
-        <Text style={style.text}>Overview</Text>
-      </ScrollView>
+      <Text>Statistics</Text>
     </SafeAreaView>
   );
 };
 
-export default ZaimuOverview;
+export default Statistics;

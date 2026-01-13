@@ -3,7 +3,7 @@ import {SafeAreaView, View, Text, Image, ScrollView} from 'react-native';
 
 import style from './style';
 
-const ZaimuOverview = () => {
+const KoujouOverview = () => {
   return (
     <SafeAreaView style={style.container}>
       <ScrollView style={style.scrollView}>
@@ -13,4 +13,4 @@ const ZaimuOverview = () => {
   );
 };
 
-export default ZaimuOverview;
+export default KoujouOverview;

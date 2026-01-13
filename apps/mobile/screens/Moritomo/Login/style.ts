@@ -1,24 +1,21 @@
 import {StyleSheet, Platform, StatusBar} from 'react-native';
-import {horizontalScale} from '../../assets/styles/scaling';
 
 const style = StyleSheet.create({
   container: {
     flex: 1,
   },
-  button: {
+  text: {
     color: '#000',
   },
-  appsContainer: {
+  loginButtonContainer: {
     flex: 1,
-    gap: horizontalScale(15),
-    flexDirection: 'row',
+    // backgroundColor: 'red',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  logoutButtonContainer: {
-    // flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  loginButton: {
+    // backgroundColor: 'blue',
+    // alignItems: 'center',
   },
 });
 

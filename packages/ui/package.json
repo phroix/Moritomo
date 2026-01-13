@@ -5,7 +5,8 @@
   "exports": {
     "./*.tsx": "./src/*.tsx",
     "./colors": "./src/Colors.ts",
-    "./routes": "./src/Routes.ts"
+    "./routes": "./src/Routes.ts",
+    "./typographie": "./src/Typographie.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

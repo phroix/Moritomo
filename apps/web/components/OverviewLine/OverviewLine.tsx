@@ -11,7 +11,8 @@ import {
 } from "@repo/rtk/shared/querys/zaimu/Overviews.ts";
 import { OverviewType } from "@repo/config/types/Overviews.ts";
 import InputField from "../InputField/InputField";
-import { useAppSelector } from "@repo/rtk/webHooks";
+import { useAppDispatch, useAppSelector } from "@repo/rtk/webHooks";
+import { addOverviewAmount } from "@repo/rtk/shared/slices/Zaimu.ts";
 
 type OverviewLineProps = {
   title: string;
@@ -23,7 +24,8 @@ type OverviewLineProps = {
   type: OverviewType;
   onClick: () => void;
   isInFocus: boolean;
-  onAmountChange: (amount: number) => void;
+  multi: number;
+  // onAmountChange: (amount: number) => void;
   onChangeTitles: () => void;
   onDetailClick: () => void;
 };
@@ -38,10 +40,12 @@ export default function OverviewLine({
   keep_data,
   onClick,
   isInFocus,
-  onAmountChange,
+  multi,
+  // onAmountChange,
   onChangeTitles,
   onDetailClick,
 }: OverviewLineProps) {
+  const dispatch = useAppDispatch();
   const { selectedDate } = useAppSelector((state) => state.zaimu);
   const { data: overviewAmount } = useGetOverviewAmountQuery(
     {
@@ -52,6 +56,14 @@ export default function OverviewLine({
     },
     { skip: isInFocus }
   );
+  console.log("multi");
+  console.log(multi);
+  // const totalAmount = overviewAmount?.[0]?.totalAmount ?? 0;
+  const paidAmmount = overviewAmount?.paidAmmount;
+  const totalAmount = overviewAmount?.totalAmount;
+  // console.log(overviewAmount);
+  // console.log(overviewAmount?.totalAmount);
+  // console.log(overviewAmount?.[0]?.totalAmount);
 
   const [updateOverview, { isLoading: isUpdateOverviewLoading }] =
     useUpdateOverviewMutation();
@@ -62,27 +74,32 @@ export default function OverviewLine({
 
   const actuaTitle = title;
   const actualSubtitle = subtitle;
+  const actualMulti = multi;
 
   const [titleInputValue, setTitleInputValue] = useState(title);
   const [subtitleInputValue, setSubtitleInputValue] = useState(subtitle);
+  const [multiInputValue, setMultiInputValue] = useState(multi);
 
-  const [editing, setEditing] = useState<null | "title" | "subtitle">(null);
+  const [editing, setEditing] = useState<null | "title" | "subtitle" | "multi">(null);
 
   const titleInputRef = useRef<HTMLInputElement>(null);
   const subtitleInputRef = useRef<HTMLInputElement>(null);
+  const multiInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (editing === "title") titleInputRef.current?.focus();
     if (editing === "subtitle") subtitleInputRef.current?.focus();
+    if (editing === "multi") multiInputRef.current?.focus();
   }, [editing]);
 
   useEffect(() => {
     if (
       actuaTitle !== titleInputValue ||
-      actualSubtitle !== subtitleInputValue
+      actualSubtitle !== subtitleInputValue ||
+      actualMulti !== multiInputValue
     ) {
       onChangeTitles();
     }
-  }, [titleInputValue, subtitleInputValue]);
+  }, [titleInputValue, subtitleInputValue, multiInputValue]);
 
   useEffect(() => {
     if (!isInFocus) setEditing(null);
@@ -90,9 +107,11 @@ export default function OverviewLine({
 
   useEffect(() => {
     if (overviewAmount !== undefined) {
-      onAmountChange(overviewAmount); // Rückgabe an den Eltern
+      // onAmountChange(paidAmmount); // Rückgabe an den Eltern
+      dispatch(addOverviewAmount(paidAmmount))
     }
-  }, [overviewAmount, onAmountChange]);
+  }, [overviewAmount]);
+
 
   useEffect(() => {
     const handleKeyDown = async (event: KeyboardEvent) => {
@@ -102,7 +121,6 @@ export default function OverviewLine({
         actuaTitle !== titleInputValue
       ) {
         event.preventDefault();
-        console.log("overviewAmount");
         const result = await updateOverview({
           overview_id: id,
           overview: {
@@ -139,8 +157,8 @@ export default function OverviewLine({
       <div className={styles.leftSide}>
         {(actuaTitle !== titleInputValue ||
           actualSubtitle !== subtitleInputValue) && (
-          <Circle color="white" size={5} />
-        )}
+            <Circle color="white" size={5} />
+          )}
         <div className={styles.bothTitlesContainer}>
           {editing !== "title" ? (
             <div
@@ -205,16 +223,41 @@ export default function OverviewLine({
       </div>
 
       <div className={styles.middleSide}>
+        {editing !== "multi" ? (
+          <div
+            onClick={() => setEditing("multi")}
+            className={styles.subtitleContainer}
+          >
+            <Headline
+              text={multiInputValue + " x"}
+              type="subHeadline"
+              color="--text-secondary"
+            />
+          </div>
+        ) : (
+          <div
+            className={styles.inputContainer}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <InputField
+              ref={multiInputRef as React.RefObject<HTMLInputElement>}
+              type="number"
+              val={multiInputValue}
+              onChange={(e) => setSubtitleInputValue(e.target.value)}
+              onBlur={() => setEditing(null)}
+            />
+          </div>
+        )}
         <FlowText
           text={
-            (overviewAmount != null
-              ? overviewAmount.toFixed(2)
+            (totalAmount != null
+              ? totalAmount?.toFixed(2)
               : 0.0
             ).toString() + " €"
           }
           type="bodyEmphasized"
           color={
-            (overviewAmount != null ? overviewAmount.toFixed(2) : 0.0) >= 0
+            (totalAmount != null ? totalAmount : 0.0) >= 0
               ? "--system-colors-system-green"
               : "--system-colors-system-red"
           }

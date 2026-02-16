@@ -4,9 +4,12 @@ export type OverviewsResponse = {
   id: number;
   name: string;
   type: OverviewType;
+  multi: number;
   date: string;
   user_id: string;
   keep_data: boolean;
+  totalAmount?: number;
+  paidAmmount?: number;
 };
 
 export type OverviewsRequest = {

@@ -200,11 +200,8 @@ export default function Transaction() {
     }, 0);
   }, [transactions]);
 
-  // console.log(selectedOverview);
-
   const divRef = useRef<HTMLDivElement>(null);
 
-  // console.log(overviews);
   return (
     <div className={styles.page}>
       <div className={styles.headerContainer}>
@@ -231,7 +228,7 @@ export default function Transaction() {
                 await createTransaction({
                   name: "Neue Transaktion",
                   amount: 0,
-                  type: "positive",
+                  type: "negative",
                   date: selectedDate,
                   overview_id: selectedOverview.id,
                   created_at: new Date().toISOString(),
@@ -244,21 +241,21 @@ export default function Transaction() {
           </div>
           <div ref={divRef} className={styles.transactionContainer}>
             {transactions?.map((transaction) => (
-              // <SwipeableRow>
-              <TransactionLine
-                key={transaction.id}
-                title={transaction.name}
-                date={transaction.date}
-                id={transaction.id}
-                type={transaction.type}
-                amount={transaction.amount}
-                overview_id={DEFAULT_QUERY.overview_id}
-                onClick={() => {}}
-                isInFocus={false}
-                onAmountChange={() => {}}
-                onChangeTitles={() => {}}
-              />
-              // </SwipeableRow>
+              <SwipeableRow>
+                <TransactionLine
+                  key={transaction.id}
+                  title={transaction.name}
+                  date={transaction.date}
+                  id={transaction.id}
+                  type={transaction.type}
+                  amount={transaction.amount}
+                  overview_id={DEFAULT_QUERY.overview_id}
+                  onClick={() => { }}
+                  isInFocus={false}
+                  onAmountChange={() => { }}
+                  onChangeTitles={() => { }}
+                />
+              </SwipeableRow>
             ))}
           </div>
         </div>

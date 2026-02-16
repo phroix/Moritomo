@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import React, { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import Image, { type ImageProps } from "next/image";
 import styles from "./page.module.css";
 
@@ -25,8 +25,11 @@ import { useRouter } from "next/navigation";
 import {
   updateZaimu,
   updateSelectedDate,
+  resetOverviewAmount,
+  addOverviewAmount,
 } from "@repo/rtk/shared/slices/Zaimu.ts";
 import { MonthIndex } from "@repo/config/date/monthYear.ts";
+import { number } from "framer-motion";
 const DEFAULT_QUERY = {
   date: "2025-10",
   user_id: "5cddbfdc-4c08-4813-ae98-c4e3c6651135",
@@ -79,6 +82,10 @@ const DEFAULT_OVERVIEWS = [
 export default function Overview() {
   const dispatch = useAppDispatch();
   const router = useRouter();
+
+  const overviewSumAmount = useAppSelector((state) => state.zaimu.overviewSumAmount);
+
+
   const [dateValue, setDateValue] = useState<{
     year: number;
     month: MonthIndex;
@@ -115,17 +122,24 @@ export default function Overview() {
     [overviewsData]
   );
 
-  const [sumAmount, setSumAmount] = useState(0);
-  const handleAmountChange = React.useCallback(
-    (amount: number) => {
-      setSumAmount((prev) => prev + amount);
-    },
-    [overviews]
-  );
+  // const [sumAmount, setSumAmount] = useState<number>(0);
+  // const handleAmountChange = useCallback(
+  //   (amount: number) => {
+  //     // setSumAmount((prev) => prev + amount);
+  //     console.log("number")
+  //     console.log(number)
+  //     dispatch(addOverviewAmount(amount))
+  //   },
+  //   [overviews]
+  // );
+  // const sumAmount = useMemo(()=>{
+  //   overviews?.map()
+  // },[])
 
-  useEffect(() => {
-    setSumAmount(0);
-  }, [dateValue]);
+  // useEffect(() => {
+  //   // setSumAmount(0);
+  //   // dispatch(resetOverviewAmount());
+  // }, [dateValue]);
 
   const [isInFocusId, setIsInFocusId] = useState<number | null>(null);
   const [isEditedOverviewIds, setIsEditedOverviewIds] = useState<number[]>([]);
@@ -153,8 +167,7 @@ export default function Overview() {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "u") {
         event.preventDefault(); // optional, um Standardaktion (z. B. "Seitenquelle anzeigen") zu verhindern
         setIsInFocusId(null);
-        console.log("u");
-        console.log(isEditedOverviewIds);
+
         // Hier deine Logik
       }
     };
@@ -164,8 +177,13 @@ export default function Overview() {
   }, [isEditedOverviewIds]);
 
   useEffect(() => {
+    const handleResetOverviewAmount = async () => {
+      await dispatch(resetOverviewAmount())
+    }
+    handleResetOverviewAmount()
     dispatch(updateSelectedDate(`${dateValue.year}-${dateValue.month + 1}`));
   }, [dateValue]);
+
 
   return (
     <div className={styles.page}>
@@ -207,7 +225,6 @@ export default function Overview() {
           <div className={styles.sumContainer}>
             <SumLine
               title="Gesamt:"
-              amount={parseFloat(sumAmount.toFixed(2))}
             />
           </div>
           <div ref={divRef} className={styles.overviewContainer}>
@@ -221,11 +238,12 @@ export default function Overview() {
                 user_id={overview.user_id}
                 type={overview.type}
                 keep_data={overview.keep_data}
+                multi={overview.multi} 
                 isInFocus={isInFocusId === overview.id}
                 onClick={() => {
                   setIsInFocusId(overview.id);
                 }}
-                onAmountChange={handleAmountChange}
+                // onAmountChange={handleAmountChange}
                 onChangeTitles={() => {
                   console.log("onChangeTitles", overview.id);
                   setIsEditedOverviewIds((prev) =>

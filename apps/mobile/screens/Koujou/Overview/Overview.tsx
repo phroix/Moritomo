@@ -6,6 +6,7 @@ import {useAppSelector} from '@repo/rtk/mobile/hooks.ts';
 import {selectMoritomo} from '@repo/rtk/moritomo';
 import style from './style';
 import {WEEKDAY_COLORS} from '@repo/config/types/Workouts.ts';
+import {useTheme} from '../../../hooks/useTheme';
 
 const TODAY = CalendarUtils.getCalendarDateString(new Date());
 
@@ -54,6 +55,7 @@ const getMarkedDatesForMonth = (
 };
 
 const KoujouOverview = () => {
+  const {colors} = useTheme();
   const {session} = useAppSelector(selectMoritomo);
   const userId = session?.access_token
     ? getUserIdFromToken(session.access_token)
@@ -112,7 +114,9 @@ const KoujouOverview = () => {
   }
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={{ backgroundColor: colors.backgrounds.base.primary }}>
       <Calendar
         enableSwipeMonths
         current={TODAY}

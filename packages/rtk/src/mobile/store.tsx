@@ -15,6 +15,7 @@ import { listenerMiddleware } from "./listenerMiddleware";
 import { LangSlice } from "../shared/slices/Lang";
 import { MoritomoSlice } from "../shared/slices/Moritomo";
 import { ZaimuSlice } from "../shared/slices/Zaimu";
+import { themeSlice } from "../shared/slices/Theme";
 import { moritomoApi } from "../shared/querys/MoritomoApi";
 
 // Creating a rootReducer that combines all reducers in the app
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   moritomo: MoritomoSlice.reducer,
   lang: LangSlice.reducer,
   zaimu: ZaimuSlice.reducer,
+  theme: themeSlice.reducer,
   [moritomoApi.reducerPath]: moritomoApi.reducer,
 });
 

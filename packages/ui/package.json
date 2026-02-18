@@ -6,6 +6,7 @@
     "./*.tsx": "./src/*.tsx",
     "./colors": "./src/Colors.ts",
     "./routes": "./src/Routes.ts",
+    "./useTheme": "./src/hooks/useTheme.ts",
     "./typographie": "./src/Typographie.ts"
   },
   "scripts": {

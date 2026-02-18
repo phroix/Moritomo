@@ -1,44 +1,11 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import {
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import {colors} from '@repo/ui/colors';
 import {Provider} from 'react-redux';
 import store, {persistor} from '@repo/rtk/mobileStore';
 import {PersistGate} from 'redux-persist/integration/react';
 import {NavigationContainer} from '@react-navigation/native';
 import RootNavigation from './navigation/RootNavigation';
-import {ZaimuRoutes} from '@repo/ui/routes';
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   /*
    * To keep the template simple and small we're adding padding to prevent view
    * from rendering under the System UI.
@@ -49,7 +16,6 @@ function App() {
    * https://github.com/react-native-community/discussions-and-proposals/discussions/827
    */
   const safePadding = '5%';
-
 
   return (
     <Provider store={store}>

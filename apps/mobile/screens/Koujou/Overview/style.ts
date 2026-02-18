@@ -1,4 +1,5 @@
 import {StyleSheet, Platform, StatusBar} from 'react-native';
+import {verticalScale} from '../../../assets/styles/scaling';
 
 const style = StyleSheet.create({
   container: {
@@ -8,7 +9,9 @@ const style = StyleSheet.create({
     flex: 1,
   },
   calendar: {
-    marginBottom: 10,
+    marginBottom: verticalScale(10),
+    paddingTop: verticalScale(5),
+    paddingBottom: verticalScale(10),
   },
   text: {
     textAlign: 'center',

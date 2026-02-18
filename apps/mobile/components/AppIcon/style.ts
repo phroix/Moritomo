@@ -1,6 +1,6 @@
 import {StyleSheet, Platform, StatusBar} from 'react-native';
 import {horizontalScale, verticalScale} from '../../assets/styles/scaling';
-import { colors } from '@repo/ui/colors';
+// import { colors } from '@repo/ui/colors';
 
 const style = StyleSheet.create({
   container: {
@@ -20,7 +20,7 @@ const style = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: colors.primary,
+    // color: colors.primary,
   },
 });
 

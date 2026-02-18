@@ -14,7 +14,8 @@
     "./auth": "./src/shared/querys/Auth.ts",
     
     "./overviews": "./src/shared/querys/zaimu/Overviews.ts",
-    "./transactions": "./src/shared/querys/zaimu/Transactions.ts"
+    "./transactions": "./src/shared/querys/zaimu/Transactions.ts",
+    "./koujouWorkouts": "./src/shared/querys/koujou/Workouts.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

@@ -10,6 +10,7 @@
     "./moritomo": "./src/types/Moritomo.ts",
     "./overviews": "./src/types/Overviews.ts",
     "./transactions": "./src/types/Transactions.ts",
+    "./workouts": "./src/date/Workouts.ts",
     "./monthYear": "./src/date/monthYear.ts"
   },
   "scripts": {

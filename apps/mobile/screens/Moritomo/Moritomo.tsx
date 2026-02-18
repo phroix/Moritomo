@@ -3,7 +3,7 @@ import {SafeAreaView, View, Pressable} from 'react-native';
 import {useAppDispatch} from '@repo/rtk/mobile/hooks.ts';
 import {resetMoritomo, updateMoritomoState} from '@repo/rtk/moritomo';
 import style from './style';
-import {KoujouRoutes, ZaimuRoutes} from '@repo/ui/routes';
+import {ZaimuRoutes} from '@repo/ui/routes';
 import {resetZaimu} from '@repo/rtk/shared/slices/Zaimu.ts';
 import {useLoginMutation, useLogoutMutation} from '@repo/rtk/auth';
 import AppIcon from '../../components/AppIcon/AppIcon';
@@ -35,7 +35,7 @@ const Moritomo = ({navigation}: {navigation: any}) => {
           name="Koujou"
           onPress={() => {
             dispatch(updateMoritomoState({app: 'koujou'}));
-            navigation.navigate(KoujouRoutes.KoujouOverview);
+            navigation.navigate('KoujouTabs');
           }}
         />
       </View>
